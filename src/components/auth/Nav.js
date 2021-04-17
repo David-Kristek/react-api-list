@@ -1,15 +1,15 @@
 import { Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { LinkContainer } from 'react-router-bootstrap';
-import { useGlobalContext} from '../../context';
+import { LinkContainer } from "react-router-bootstrap";
+import { useGlobalContext } from "../../context";
 
 function Nav() {
-  const { token, user } = useGlobalContext(); 
+  const { token, user, logOutCtx } = useGlobalContext();
 
   if (token === "") {
     return (
       <>
-        <LinkContainer to="/login" style={{ cursor: 'pointer' }}>
+        <LinkContainer to="/login" style={{ cursor: "pointer" }}>
           <Navbar.Text className="pr-4 text-white">Login</Navbar.Text>
         </LinkContainer>
         <Navbar.Text>
@@ -20,11 +20,15 @@ function Nav() {
   } else {
     return (
       <>
-      <LinkContainer to="/login" style={{ cursor: 'pointer' }}>
-          <Navbar.Text className="pr-4 text-white">Signed in as: {user.name ?? "..."}</Navbar.Text>
+        <LinkContainer to="/login" style={{ cursor: "pointer" }}>
+          <Navbar.Text className="pr-4 text-white">
+            Signed in as: {user.name ?? "..."}
+          </Navbar.Text>
         </LinkContainer>
-        <LinkContainer to="/logout" style={{ cursor: 'pointer' }}>
-          <Navbar.Text className="pr-4 text-white">Logout</Navbar.Text>
+        <LinkContainer to="/login" style={{ cursor: "pointer" }}>
+          <Navbar.Text className="pr-4 text-white" onClick={logOutCtx}>
+            Logout
+          </Navbar.Text>
         </LinkContainer>
       </>
     );

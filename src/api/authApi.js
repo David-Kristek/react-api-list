@@ -37,4 +37,15 @@ export const getUserData = async (token) => {
   let jsData = await resp.json();
   return jsData;
 };
-
+export const logOut = async (token) => {
+  let resp = await fetch(`http://localhost:8000/api/logout`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
+  let jsData = await resp.json();
+  return jsData;
+}

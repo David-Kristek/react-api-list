@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { writeStorage, useLocalStorage } from "@rehooks/local-storage";
-import { getUserData } from "./api/authApi";
+import { getUserData, logOut } from "./api/authApi";
 
 const AppContext = React.createContext();
 
@@ -24,21 +24,34 @@ const AppProvider = ({ children }) => {
       });
     }
   };
+  const logOutCtx = () => {
+    console.log("removing");
+    if (localStorage.getItem("token") == null) {
+    }
+    else{
+      logOut(token).then((data) => {
+        localStorage.removeItem("token");
+        setToken("");
+        setUserData({});
+      }); 
+    }
+  }
+
   useEffect(() => {
     if (confStorage("token", setToken)) {
       setUserData();
     }
   }, []);
   useEffect(() => {
-    if (token != "") {
+    if (token !== "") {
       localStorage.setItem("token", token);
       setUserData();
     }
   }, [token]);
-
+  //dodelat chyby napr. chybne prihlaseni
   return (
     <AppContext.Provider
-      value={{ title, setTitle, token, setToken, user, setUser }}
+      value={{ title, setTitle, token, setToken, user, setUser, logOutCtx }}
     >
       {children}
     </AppContext.Provider>
