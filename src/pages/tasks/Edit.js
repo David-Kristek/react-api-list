@@ -5,9 +5,6 @@ import { useGlobalContext } from "../../context";
 
 function Add() {
   const { setTitle, token } = useGlobalContext();
-  useEffect(() => {
-    setTitle("Edit task");
-  }, []);
   const { id } = useParams();
   const history = useHistory();
 
@@ -18,7 +15,9 @@ function Add() {
   const [postId, setPostId] = useState(0);
 
   useEffect(() => {
-    getOnePost(id).then((data) => {
+    setTitle("Edit task");
+
+    getOnePost(id, token).then((data) => {
       setTitl(data.title);
       setDescription(data.description);
       setPostId(data.id);
@@ -33,7 +32,7 @@ function Add() {
         history.push("/login");
         return;
       }
-      await update(postId, { title, description });
+      await update(postId, { title, description }, token);
       setLoadUp(false);
       history.push("/");
     }

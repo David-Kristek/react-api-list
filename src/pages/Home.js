@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { allData } from "../api/tasksApi";
 import { useGlobalContext } from "../context"; 
 import TableBody from "../components/TableBody";
 
 function Home() {
+  const history = useHistory();
+
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(true);
-  const { setTitle } = useGlobalContext();
+  const { setTitle, token } = useGlobalContext();
   useEffect(() => {
+    if(token.length < 5){
+      history.push("/login");
+      return;
+    }
     setTitle("Tasks"); 
-    allData().then((res) => {
+    allData(token).then((res) => {
       setData(res);
       setLoading(false);
     });

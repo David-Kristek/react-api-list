@@ -18,7 +18,6 @@ function Nav() {
       </>
     );
   } else {
-    console.log(token);
     return (
       <>
       <LinkContainer to="/login" style={{ cursor: 'pointer' }}>

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { remove } from "../api/tasksApi";
+import { useGlobalContext } from "../context";
 
 function TableBody({ data }) {
   const [datas, setDatas] = useState(data);
   const [delId, setDelId] = useState(-1);
+  const { token } = useGlobalContext(); 
   if (datas.length > 0) {
     return (
       <tbody>
@@ -22,7 +24,7 @@ function TableBody({ data }) {
                   onClick={() => {
                     if (delId === -1) {
                       setDelId(item.id);
-                      remove(item.id)
+                      remove(item.id, token)
                         .then(() => {
                           setDelId(-1);
                           setDatas(

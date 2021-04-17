@@ -20,7 +20,7 @@ function Add() {
         return;
       }
       setLoadUp(true);
-      let a = await addPost({ title, description, token });
+      let a = await addPost({ title, description }, token);
       console.log(a);
       setLoadUp(false);
       history.push("/");

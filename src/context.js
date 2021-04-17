@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { writeStorage, useLocalStorage } from "@rehooks/local-storage";
-import { getUserData } from "./api/authApi"; 
+import { getUserData } from "./api/authApi";
 
 const AppContext = React.createContext();
 
@@ -11,27 +11,28 @@ const AppProvider = ({ children }) => {
 
   const confStorage = (key, func) => {
     if (localStorage.getItem(key) == null) {
-      return false; 
+      return false;
     } else {
       func(localStorage.getItem(key));
       return true;
     }
   };
   const setUserData = () => {
-    getUserData(token).then((data) => {
-      setUser(data); 
-      console.log(data);
-    })
-  }
+    if (token.length > 5) {
+      getUserData(token).then((data) => {
+        setUser(data);
+      });
+    }
+  };
   useEffect(() => {
-    if(confStorage("token", setToken)){
-      setUserData(); 
+    if (confStorage("token", setToken)) {
+      setUserData();
     }
   }, []);
   useEffect(() => {
     if (token != "") {
       localStorage.setItem("token", token);
-      setUserData(); 
+      setUserData();
     }
   }, [token]);
 

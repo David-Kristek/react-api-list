@@ -19,7 +19,7 @@ function AppContainer({ title, children, nav = "" }) {
       <>
         <Navbar bg="secondary" variant="dark">
           <LinkContainer to="/" style={{ cursor: "pointer" }}>
-            <Navbar.Brand className="pr-4 text-white">Home</Navbar.Brand>
+            <Navbar.Brand className="pr-4 text-white">Tasks</Navbar.Brand>
           </LinkContainer>
           <LinkContainer to="/add" style={{ cursor: "pointer" }}>
             <Navbar.Brand className="pr-4 text-white">Add task</Navbar.Brand>
