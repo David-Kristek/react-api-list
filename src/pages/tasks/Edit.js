@@ -2,6 +2,7 @@ import { useHistory, useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { update, getOnePost } from "../../api/tasksApi";
 import { useGlobalContext } from "../../context";
+import { Form, Button } from "react-bootstrap";
 
 function Add() {
   const { setTitle, token } = useGlobalContext();
@@ -13,6 +14,7 @@ function Add() {
   const [title, setTitl] = useState("Loading");
   const [description, setDescription] = useState("Loading");
   const [postId, setPostId] = useState(0);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     setTitle("Edit task");
@@ -24,46 +26,59 @@ function Add() {
       setLoading(false);
     });
   }, []);
-  const onAddSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (title.length > 0 && description.length > 0 && loading === false) {
-      setLoadUp(true);
-      if (token === "") {
-        history.push("/login");
-        return;
-      }
-      await update(postId, { title, description }, token);
-      setLoadUp(false);
-      history.push("/");
+    setLoadUp(true);
+    if (token === "") {
+      history.push("/login");
+      return;
     }
+    update(postId, { title, description }, token).then((res) => {
+      if (res.hasOwnProperty("errors")) {
+        setErrors(res.errors);
+        setLoadUp(false);
+      } else {
+        setLoadUp(false);
+        history.push("/");
+      }
+    });
   };
   return (
-    <form onSubmit={onAddSubmit}>
-      <div className="mb-3">
-        <label className="form-label">Edit</label>
-        <input
+    <Form onSubmit={handleSubmit}>
+      <Form.Group>
+        <label className="form-label">Name</label>
+        <Form.Control
           type="text"
           className="form-control"
           value={title}
           onChange={(e) => setTitl(e.target.value)}
+          isInvalid={"title" in errors}
         />
-        <div id="emailHelp" className="form-text">
-          We'll never share your email with anyone else.
-        </div>
-      </div>
-      <div className="mb-3">
+        {"title" in errors && (
+          <Form.Control.Feedback type="invalid">
+            {errors.title}
+          </Form.Control.Feedback>
+        )}
+      </Form.Group>
+      <Form.Group>
         <label className="form-label">Text</label>
-        <input
+        <Form.Control
           type="text"
           className="form-control"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          isInvalid={"description" in errors}
         />
-      </div>
-      <button type="submit" className="btn btn-primary">
-        {loadUp ? "Loading" : "Add"}
-      </button>
-    </form>
+        {"description" in errors && (
+          <Form.Control.Feedback type="invalid">
+            {errors.description}
+          </Form.Control.Feedback>
+        )}
+      </Form.Group>
+      <Button variant="primary" type="submit">
+        {loadUp ? "Loading" : "Edit"}
+      </Button>
+    </Form>
   );
 }
 
