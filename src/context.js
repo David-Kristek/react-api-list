@@ -18,14 +18,13 @@ const AppProvider = ({ children }) => {
     }
   };
   const setUserData = () => {
-    if (token.length > 5) {
+    if (token.length > 10) {
       getUserData(token).then((data) => {
         setUser(data);
       });
     }
   };
   const logOutCtx = () => {
-    console.log("removing");
     if (localStorage.getItem("token") == null) {
     }
     else{
