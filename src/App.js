@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React, {useState} from 'react'
+import { BrowserRouter as Router, Switch, Route, withRouter } from "react-router-dom";
 import { useGlobalContext } from './context';
 
 import AppContainer from "./components/AppContainer";
@@ -8,8 +9,14 @@ import Edit from "./pages/tasks/Edit";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import Admin from "./pages/admin/AdminPage"; 
+import UserInfo from "./pages/admin/UserInfo";
+
 function App() {
-  const { title } = useGlobalContext(); 
+  const { title, token } = useGlobalContext(); 
+  const [redirect, setRedirect] = useState("");
+  const guest = () => {
+    console.log("ahoj");
+  }
   return (
     <Router>
         <Switch>
@@ -17,25 +24,25 @@ function App() {
           <Route exact path="/">
             <Home />
           </Route>
-          <Route path="/add">
+          <Route exact path="/add">
             <Add />
           </Route>
-          <Route path="/edit/:id">
+          <Route exact path="/edit/:id">
             <Edit />
           </Route>
 
-          <Route path="/login">
+          <Route exact path="/login" render={guest()}>
             <Login />
           </Route>
-          <Route path="/register">
+          <Route exact path="/register" render={guest()}>
             <Register />
           </Route>
 
-          <Route path="/admin">
+          <Route exact path="/admin">
             <Admin />
           </Route>
-          <Route path="/admin/user:id">
-            <Admin />
+          <Route path="/admin/user/:id">
+            <UserInfo />
           </Route>
       </AppContainer>
       

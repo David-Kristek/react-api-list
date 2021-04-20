@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Table, Button } from "react-bootstrap";
 import { useGlobalContext } from "../../context";
-
+import { Link } from "react-router-dom"; 
 import { usersData } from "../../api/adminApi";
 
 function UserTable() {
@@ -34,15 +34,15 @@ function UserTable() {
         {data.map((item) => {
           const { id, name, email, user_id, main} = item;
           return (
-            <tr>
+            <tr key={id}>
               <td>{id}</td>
               <td>{name}</td>
               <td>{email}</td>
               <td>{ main === null ? '' : "main"} { user_id === null ? 'user' : "admin"}</td>
               <td className="rowInfo">
-                <Button variant="primary" className="moreInfo">
+                <Link to={`/admin/user/${id}`} className="btn btn-warning">
                   More info
-                </Button>
+                </Link>
               </td>
             </tr>
           );

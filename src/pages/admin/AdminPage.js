@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { useGlobalContext } from "../../context";
 
 import UserTable from "../../components/admin/UserTable";
-import { admin, usersData } from "../../api/adminApi";
+import { admin } from "../../api/adminApi";
 
 function AdminPage() {
   const { setTitle, token, user } = useGlobalContext();
@@ -23,7 +23,7 @@ function AdminPage() {
       }
     });
   }, []);
-  if (isAdmin == false) {
+  if (isAdmin == false && loading === false) {
     return <h2 className="text-center">You are not admin!</h2>;
   } else {
     return (

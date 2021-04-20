@@ -1,13 +1,16 @@
 import React, { useState, useContext, useEffect } from "react";
 import { writeStorage, useLocalStorage } from "@rehooks/local-storage";
 import { getUserData, logOut } from "./api/authApi";
+import { useHistory } from 'react-router-dom';
 
 const AppContext = React.createContext();
 
 const AppProvider = ({ children }) => {
+  const history = useHistory();
   const [title, setTitle] = useState("");
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
+
 
   const confStorage = (key, func) => {
     if (localStorage.getItem(key) == null) {
@@ -26,15 +29,15 @@ const AppProvider = ({ children }) => {
   };
   const logOutCtx = () => {
     if (localStorage.getItem("token") == null) {
-    }
-    else{
+    } else {
       logOut(token).then((data) => {
         localStorage.removeItem("token");
         setToken("");
         setUserData({});
-      }); 
+        history.push('/login')
+      });
     }
-  }
+  };
 
   useEffect(() => {
     if (confStorage("token", setToken)) {

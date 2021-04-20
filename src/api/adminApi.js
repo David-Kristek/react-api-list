@@ -28,8 +28,8 @@ const fetchData = async (token, method, addUrl = "", body = false, bodyData = {}
 export const removeAdmin = async (token, id) => {
     return await fetchData(token, "DELETE", `/removeAdmin/${id}`);
 }
-export const newAdmin = async (token, body) => {
-    return await fetchData(token, "POST", `/newAdmin`);
+export const makeAdmin = async (token, id) => {
+  return await fetchData(token, "GET", `/newAdmin/${id}`);
 }
 
 

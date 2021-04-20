@@ -17,10 +17,6 @@ function Add() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (token === "") {
-      history.push("/login");
-      return;
-    }
     setLoadUp(true);
     addPost({ title, description }, token).then((res) => {
       if (res.hasOwnProperty("errors")) {

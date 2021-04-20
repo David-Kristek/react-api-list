@@ -11,10 +11,6 @@ function Home() {
   const [data, setData] = useState(true);
   const { setTitle, token } = useGlobalContext();
   useEffect(() => {
-    if(token.length < 5){
-      history.push("/login");
-      return;
-    }
     setTitle("Tasks"); 
     allData(token).then((res) => {
       setData(res);
